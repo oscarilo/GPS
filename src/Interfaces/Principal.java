@@ -57,6 +57,12 @@ public class Principal extends javax.swing.JFrame {
         btnAbajo = new javax.swing.JButton();
         btnDerecha = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        usuarios = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel6 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -199,6 +205,54 @@ public class Principal extends javax.swing.JFrame {
 
         tabbedPrincipal.addTab("  Configuración", new javax.swing.ImageIcon(getClass().getResource("/Iconos/configuracion.png")), configuracion); // NOI18N
 
+        jPanel5.setLayout(null);
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Usuario", "Nombre(s)", "Apellido Paterno", "Apellido Materno", "Cargo", "Área"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 886, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 79, Short.MAX_VALUE))
+        );
+
+        jPanel5.add(jPanel2);
+        jPanel2.setBounds(10, 10, 890, 550);
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
+        jPanel5.add(jLabel6);
+        jLabel6.setBounds(0, 0, 1367, 769);
+
+        javax.swing.GroupLayout usuariosLayout = new javax.swing.GroupLayout(usuarios);
+        usuarios.setLayout(usuariosLayout);
+        usuariosLayout.setHorizontalGroup(
+            usuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 1367, Short.MAX_VALUE)
+        );
+        usuariosLayout.setVerticalGroup(
+            usuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 769, Short.MAX_VALUE)
+        );
+
+        tabbedPrincipal.addTab("Usuarios", new javax.swing.ImageIcon(getClass().getResource("/Iconos/configuracion.png")), usuarios); // NOI18N
+
         jMenu1.setText("File");
 
         jMenuItem1.setText("jMenuItem1");
@@ -252,10 +306,10 @@ public class Principal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void btnArribaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArribaActionPerformed
+    private void btnDerechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDerechaActionPerformed
         // TODO add your handling code here:
-        tabbedPrincipal.setTabPlacement(JTabbedPane.TOP);
-    }//GEN-LAST:event_btnArribaActionPerformed
+        tabbedPrincipal.setTabPlacement(JTabbedPane.RIGHT);
+    }//GEN-LAST:event_btnDerechaActionPerformed
 
     private void btnAbajoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbajoActionPerformed
         // TODO add your handling code here:
@@ -267,10 +321,10 @@ public class Principal extends javax.swing.JFrame {
         tabbedPrincipal.setTabPlacement(JTabbedPane.LEFT);
     }//GEN-LAST:event_btnIzquierdaActionPerformed
 
-    private void btnDerechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDerechaActionPerformed
+    private void btnArribaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArribaActionPerformed
         // TODO add your handling code here:
-        tabbedPrincipal.setTabPlacement(JTabbedPane.RIGHT);
-    }//GEN-LAST:event_btnDerechaActionPerformed
+        tabbedPrincipal.setTabPlacement(JTabbedPane.TOP);
+    }//GEN-LAST:event_btnArribaActionPerformed
        
     
     /**
@@ -320,14 +374,20 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JPanel pestañaInventario;
     private javax.swing.JTabbedPane tabbedPrincipal;
+    private javax.swing.JPanel usuarios;
     // End of variables declaration//GEN-END:variables
 }
