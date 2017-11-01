@@ -30,10 +30,10 @@ public class Login extends javax.swing.JFrame {
         
         this.setLocationRelativeTo(null);
         //centrar texto
-        campoUsuario.setHorizontalAlignment (campoUsuario.CENTER);
-        campoContraseña.setHorizontalAlignment (campoContraseña.CENTER);
+        tf_campoUsuario.setHorizontalAlignment (tf_campoUsuario.CENTER);
+        tf_campoContraseña.setHorizontalAlignment (tf_campoContraseña.CENTER);
         setBackground(new Color(0, 255, 0, 0));
-        jPanel1.setBackground(new Color(0, 255, 0, 0));
+        pn_principal_Login.setBackground(new Color(0, 255, 0, 0));
         setIconImage(new ImageIcon(getClass().getResource("/Iconos/IEE.png")).getImage());
     }
 
@@ -46,98 +46,98 @@ public class Login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        campoUsuario = new javax.swing.JTextField();
-        campoContraseña = new javax.swing.JPasswordField();
-        jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        pn_principal_Login = new javax.swing.JPanel();
+        tf_campoUsuario = new javax.swing.JTextField();
+        tf_campoContraseña = new javax.swing.JPasswordField();
+        lb_logoIEEN_Login = new javax.swing.JLabel();
+        btn_ingresar = new javax.swing.JButton();
+        lb_contraseña = new javax.swing.JLabel();
+        btn_cancelar = new javax.swing.JButton();
+        lb_usuario = new javax.swing.JLabel();
+        lb_background_Login = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
 
-        jPanel1.setBackground(new java.awt.Color(255, 204, 0));
-        jPanel1.setLayout(null);
+        pn_principal_Login.setBackground(new java.awt.Color(255, 204, 0));
+        pn_principal_Login.setLayout(null);
 
-        campoUsuario.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        jPanel1.add(campoUsuario);
-        campoUsuario.setBounds(220, 110, 200, 30);
+        tf_campoUsuario.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        pn_principal_Login.add(tf_campoUsuario);
+        tf_campoUsuario.setBounds(220, 110, 200, 30);
 
-        campoContraseña.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
-        jPanel1.add(campoContraseña);
-        campoContraseña.setBounds(220, 160, 200, 28);
+        tf_campoContraseña.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        pn_principal_Login.add(tf_campoContraseña);
+        tf_campoContraseña.setBounds(220, 160, 200, 28);
 
-        jLabel2.setFont(new java.awt.Font("Yu Gothic UI", 0, 24)); // NOI18N
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/banerLogin.png"))); // NOI18N
-        jPanel1.add(jLabel2);
-        jLabel2.setBounds(20, 20, 530, 80);
+        lb_logoIEEN_Login.setFont(new java.awt.Font("Yu Gothic UI", 0, 24)); // NOI18N
+        lb_logoIEEN_Login.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/banerLogin.png"))); // NOI18N
+        pn_principal_Login.add(lb_logoIEEN_Login);
+        lb_logoIEEN_Login.setBounds(20, 20, 530, 80);
 
-        jButton1.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
-        jButton1.setText("  Ingresar");
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btn_ingresar.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
+        btn_ingresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
+        btn_ingresar.setText("  Ingresar");
+        btn_ingresar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_ingresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btn_ingresarActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1);
-        jButton1.setBounds(300, 220, 120, 30);
+        pn_principal_Login.add(btn_ingresar);
+        btn_ingresar.setBounds(300, 220, 120, 30);
 
-        jLabel4.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        jLabel4.setText("Contraseña :");
-        jPanel1.add(jLabel4);
-        jLabel4.setBounds(110, 160, 110, 20);
+        lb_contraseña.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        lb_contraseña.setText("Contraseña :");
+        pn_principal_Login.add(lb_contraseña);
+        lb_contraseña.setBounds(110, 160, 110, 20);
 
-        jButton2.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cancelar.png"))); // NOI18N
-        jButton2.setText("  Cancelar");
-        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btn_cancelar.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
+        btn_cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cancelar.png"))); // NOI18N
+        btn_cancelar.setText("  Cancelar");
+        btn_cancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_cancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btn_cancelarActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2);
-        jButton2.setBounds(160, 220, 120, 30);
+        pn_principal_Login.add(btn_cancelar);
+        btn_cancelar.setBounds(160, 220, 120, 30);
 
-        jLabel5.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        jLabel5.setText("Usuario :");
-        jPanel1.add(jLabel5);
-        jLabel5.setBounds(140, 120, 80, 20);
+        lb_usuario.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        lb_usuario.setText("Usuario :");
+        pn_principal_Login.add(lb_usuario);
+        lb_usuario.setBounds(140, 120, 80, 20);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondoLogin.png"))); // NOI18N
-        jPanel1.add(jLabel1);
-        jLabel1.setBounds(0, 0, 580, 300);
+        lb_background_Login.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondoLogin.png"))); // NOI18N
+        pn_principal_Login.add(lb_background_Login);
+        lb_background_Login.setBounds(0, 0, 580, 300);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(pn_principal_Login, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(pn_principal_Login, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
         // TODO add your handling code here:
         System.exit(0);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btn_cancelarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btn_ingresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ingresarActionPerformed
          // TODO add your handling code here:
          Principal ob = new Principal();
                  ob.setVisible(true);
                  this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btn_ingresarActionPerformed
    
     
     
@@ -156,14 +156,14 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPasswordField campoContraseña;
-    private javax.swing.JTextField campoUsuario;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton btn_cancelar;
+    private javax.swing.JButton btn_ingresar;
+    private javax.swing.JLabel lb_background_Login;
+    private javax.swing.JLabel lb_contraseña;
+    private javax.swing.JLabel lb_logoIEEN_Login;
+    private javax.swing.JLabel lb_usuario;
+    private javax.swing.JPanel pn_principal_Login;
+    private javax.swing.JPasswordField tf_campoContraseña;
+    private javax.swing.JTextField tf_campoUsuario;
     // End of variables declaration//GEN-END:variables
 }
