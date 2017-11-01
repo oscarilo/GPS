@@ -96,7 +96,7 @@ public class ManagerLogin {
     private boolean esAdministrador(String id) {
         boolean res = false;
         try {
-            String sql = "select * from empleados where usuario = '" + id + ";";
+            String sql = "select * from User where id_user = '" + id + ";";
             conexion = db.getConexion(); //obtenemos conexion 
             Statement st = conexion.createStatement(); //Crear obteno de consulta
             ResultSet rs = st.executeQuery(sql); //Ejecuta la consulta
