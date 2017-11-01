@@ -4,11 +4,16 @@
  * and open the template in the editor.
  */
 package Interfaces;
+//Clases importadas
+import Clases.Conexion;
+import Clases.ManagerLogin;
 
 import com.alee.laf.WebLookAndFeel;
 import com.sun.java.swing.plaf.motif.MotifLookAndFeel;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -18,7 +23,12 @@ import javax.swing.UnsupportedLookAndFeelException;
  * @author oscar
  */
 public class Login extends javax.swing.JFrame {
-    
+    //Variables de las clases
+    private final Conexion check_con;
+    private final ManagerLogin manager;
+    //Variables globales de la interfaz
+    private String password;
+    private String user;
     /**
      * Creates new form LogIn
      */
@@ -26,7 +36,9 @@ public class Login extends javax.swing.JFrame {
         super();
         
         initComponents();
-        //asignacion de memoria a objetos
+        //Asignacion de memoria a objetos
+        manager = new ManagerLogin();
+        check_con = new Conexion();
         
         this.setLocationRelativeTo(null);
         //centrar texto
@@ -67,6 +79,11 @@ public class Login extends javax.swing.JFrame {
         campoUsuario.setBounds(220, 110, 200, 30);
 
         campoContraseña.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        campoContraseña.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoContraseñaKeyReleased(evt);
+            }
+        });
         jPanel1.add(campoContraseña);
         campoContraseña.setBounds(220, 160, 200, 28);
 
@@ -134,12 +151,102 @@ public class Login extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
          // TODO add your handling code here:
-         Principal ob = new Principal();
-                 ob.setVisible(true);
-                 this.dispose();
+        if(check_con.hayConexion()) {
+            if (iniciarSesion()) {
+                Principal ob = new Principal();
+                this.hide();
+                ob.setVisible(true);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "NO HAY CONEXION CON LA BD");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void campoContraseñaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoContraseñaKeyReleased
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            System.exit(0);
+
+        } else if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (iniciarSesion()) {
+                Principal ob = new Principal();
+                this.hide();
+                //ob.setIDUsuario(id);
+                ob.setVisible(true);
+            }
+
+        }
+    }//GEN-LAST:event_campoContraseñaKeyReleased
    
+    //Métodos
+    public boolean validar(){
+        boolean res = false;
+        if(campoUsuario.getText().isEmpty() || campoContraseña.getText().isEmpty()){
+            res = true;
+        }
+        return res;
+    }
     
+    private boolean validarID() {
+
+        if (campoUsuario.getText().equals("")) {
+            return false; //si no ingreso ningun numero
+        }
+        return true;
+
+    }//validarID
+    
+    private boolean validarPassword() {
+        password = campoContraseña.getText();
+        if (password.isEmpty()) {
+            return false; //se retorna false si no ingreso contraseÃ±a
+        }
+        return true;
+    }//validarPasswo
+    
+    private boolean iniciarSesion() {
+        if (validarID()) {
+            if (validarPassword()) {
+                user = campoUsuario.getText();
+                int resultado = manager.iniciarSesion(user, password); //obtenemos de la base de datos informacion sobre el si se concreto el login
+                if (resultado == 0) {
+                    JOptionPane.showMessageDialog(this, "El usuario no existe!","Información",JOptionPane.INFORMATION_MESSAGE);
+                    campoUsuario.setText("");
+                    campoContraseña.setText("");
+                    campoUsuario.requestFocus();
+                    return false;
+                }//
+                //NO ES NECESARIO-----------------------------------------------------------------
+                if (resultado == 2) {
+
+                    JOptionPane.showMessageDialog(this, "El usuario no es administrador");
+                    campoContraseña.setText("");
+                    campoContraseña.requestFocus();
+                    return false;
+                }//
+
+                if (resultado == 1) {
+                    JOptionPane.showMessageDialog(this, "Contraseña incorrecta!","Información",JOptionPane.WARNING_MESSAGE);
+                    campoContraseña.setText("");
+                    campoContraseña.requestFocus();
+                    return false;
+                }//
+
+                if (resultado == 3) {
+                    return true;
+                }//
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Ingrese una Contraseña");
+
+            }//
+        } else {
+            JOptionPane.showMessageDialog(this, "Ingrese un usuario valido");
+
+        }//
+
+        return false;
+    }//Iniciar Sesion
     
     /**
      * @param args the command line arguments
