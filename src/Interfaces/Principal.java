@@ -47,6 +47,7 @@ public class Principal extends javax.swing.JFrame {
         tabbedPrincipal = new javax.swing.JTabbedPane();
         pestañaInventario = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         configuracion = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -76,6 +77,10 @@ public class Principal extends javax.swing.JFrame {
         pestañaInventario.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
 
         jPanel3.setLayout(null);
+
+        jLabel2.setText("Prueba commit");
+        jPanel3.add(jLabel2);
+        jLabel2.setBounds(220, 120, 140, 14);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
         jPanel3.add(jLabel1);
@@ -318,6 +323,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btnIzquierda;
     private javax.swing.JPanel configuracion;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JMenu jMenu1;
