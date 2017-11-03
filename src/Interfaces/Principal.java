@@ -11,12 +11,22 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 
+//Importamos los formularios
+import Formularios.addEmpleados;
+
+//Importamos los TDA del paquete Clases
+import Clases.ManagerUsers;
+import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+
 /**
  *
  * @author oscar
  */
 public class Principal extends javax.swing.JFrame {
-
+    
+    ManagerUsers manager_users;
+    
     /**
      * Creates new form Principal
      */
@@ -26,9 +36,11 @@ public class Principal extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         setIconImage(new ImageIcon(getClass().getResource("/Iconos/IEE.png")).getImage());
         
+        //Asignamos memoria al objeto
+        manager_users = new ManagerUsers();
         
-        
-        
+        //Propiedades de las tablas
+        tablaUsuarios.getTableHeader().setReorderingAllowed(false);
         
     }
       
@@ -44,6 +56,11 @@ public class Principal extends javax.swing.JFrame {
     private void initComponents() {
 
         Grupo1 = new javax.swing.ButtonGroup();
+        MenuUsuarios = new javax.swing.JPopupMenu();
+        Eliminar = new javax.swing.JMenuItem();
+        Actualizar = new javax.swing.JMenuItem();
+        Promover = new javax.swing.JMenuItem();
+        Permisos = new javax.swing.JMenuItem();
         tabbedPrincipal = new javax.swing.JTabbedPane();
         pestañaInventario = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -58,16 +75,43 @@ public class Principal extends javax.swing.JFrame {
         btnAbajo = new javax.swing.JButton();
         btnDerecha = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        usuarios = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaUsuarios = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
+        jButton1 = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+
+        Eliminar.setText("Eliminar");
+        Eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EliminarActionPerformed(evt);
+            }
+        });
+        MenuUsuarios.add(Eliminar);
+
+        Actualizar.setText("Actualizar");
+        MenuUsuarios.add(Actualizar);
+
+        Promover.setText("Promover");
+        MenuUsuarios.add(Promover);
+
+        Permisos.setText("Permisos");
+        MenuUsuarios.add(Permisos);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Sistema Integral - Instituto Estatal Electoral");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -204,6 +248,67 @@ public class Principal extends javax.swing.JFrame {
 
         tabbedPrincipal.addTab("  Configuración", new javax.swing.ImageIcon(getClass().getResource("/Iconos/configuracion.png")), configuracion); // NOI18N
 
+        jPanel5.setLayout(null);
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+
+        tablaUsuarios.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Usuario", "Nombre(s)", "Apellido Paterno", "Apellido Materno", "Cargo", "Área"
+            }
+        ));
+        tablaUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tablaUsuariosMouseReleased(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tablaUsuarios);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 926, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
+        );
+
+        jPanel5.add(jPanel2);
+        jPanel2.setBounds(10, 10, 930, 450);
+
+        jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jButton1.setText("Agregar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(jButton1);
+        jButton1.setBounds(960, 40, 100, 30);
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
+        jPanel5.add(jLabel6);
+        jLabel6.setBounds(0, 0, 1367, 769);
+
+        javax.swing.GroupLayout usuariosLayout = new javax.swing.GroupLayout(usuarios);
+        usuarios.setLayout(usuariosLayout);
+        usuariosLayout.setHorizontalGroup(
+            usuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 1367, Short.MAX_VALUE)
+        );
+        usuariosLayout.setVerticalGroup(
+            usuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 769, Short.MAX_VALUE)
+        );
+
+        tabbedPrincipal.addTab("Usuarios", new javax.swing.ImageIcon(getClass().getResource("/Iconos/configuracion.png")), usuarios); // NOI18N
+
         jMenu1.setText("File");
 
         jMenuItem1.setText("jMenuItem1");
@@ -237,7 +342,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
          // TODO add your handling code here:
-         Object[] botones = {"Confirmar","Cerrar Sesión","Cancelar"};
+        Object[] botones = {"Confirmar","Cerrar Sesión","Cancelar"};
         int opcion = JOptionPane.showOptionDialog(this,"¿Salir del Sistema?", "Confirmación",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
         
@@ -276,6 +381,59 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         tabbedPrincipal.setTabPlacement(JTabbedPane.RIGHT);
     }//GEN-LAST:event_btnDerechaActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        
+        //Llenado de tablas
+        tablaUsuarios.setModel(manager_users.getEmpleados());
+        
+    }//GEN-LAST:event_formWindowOpened
+
+    private void tablaUsuariosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUsuariosMouseReleased
+        // TODO add your handling code here:
+        //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
+        if(SwingUtilities.isRightMouseButton(evt)){
+            int r = tablaUsuarios.rowAtPoint(evt.getPoint());
+            if (r >= 0 && r < tablaUsuarios.getRowCount())
+            tablaUsuarios.setRowSelectionInterval(r, r);
+            MenuUsuarios.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+        }//clic derecho
+        
+    }//GEN-LAST:event_tablaUsuariosMouseReleased
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        //Llamamos el forumulario para añadir un nuevo empleado
+        addEmpleados ob = new addEmpleados(this, true);
+        ob.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarActionPerformed
+        // TODO add your handling code here:
+        //Obtenemos la fila y con dicha fila obtenemos el usuario
+        int fila = tablaUsuarios.getSelectedRow();
+        String usuario = tablaUsuarios.getValueAt(fila, 0).toString();
+        //Creamos un cuadro de dialogo para que confirme la eliminación del usuario o la cancele
+        Object[] botones = {"Confirmar","Cancelar"};
+        int opcion = JOptionPane.showOptionDialog(this,"¿Eliminar al usuario "+usuario+"?", "Confirmación",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
+        
+        //Acepta eliminar al usuario
+        if(opcion == 0){
+
+            if(manager_users.eliminarEmpleado(usuario)){
+                JOptionPane.showMessageDialog(null, "El usuario a sido eliminado exisitosamente.");
+                tablaUsuarios.setModel(manager_users.getEmpleados());
+            }//if(eliminarEmpleado())
+            else{
+                    JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
+            }
+        }//if(opcion == 0)
+        
+        
+        
+    }//GEN-LAST:event_EliminarActionPerformed
        
     
     /**
@@ -316,24 +474,36 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem Actualizar;
+    private javax.swing.JMenuItem Eliminar;
     private javax.swing.ButtonGroup Grupo1;
+    private javax.swing.JPopupMenu MenuUsuarios;
+    private javax.swing.JMenuItem Permisos;
+    private javax.swing.JMenuItem Promover;
     private javax.swing.JButton btnAbajo;
     private javax.swing.JButton btnArriba;
     private javax.swing.JButton btnDerecha;
     private javax.swing.JButton btnIzquierda;
     private javax.swing.JPanel configuracion;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pestañaInventario;
     private javax.swing.JTabbedPane tabbedPrincipal;
+    public static javax.swing.JTable tablaUsuarios;
+    private javax.swing.JPanel usuarios;
     // End of variables declaration//GEN-END:variables
 }

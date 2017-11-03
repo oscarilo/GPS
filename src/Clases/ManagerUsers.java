@@ -43,10 +43,8 @@ public class ManagerUsers {
             table.addColumn("Área");
             
             //Consulta de los empleados
-            String sql = "select u.id_user,e.nombres,e.apellido_p,e.apellido_m,p.nombre_puesto,a.nombre_area from user u\n" +
-                         "inner join empleados e on (u.id_empleado = e.id_empleado)\n" +
-                         "inner join puestos p on (p.id_puesto = u.id_puesto)\n" +
-                         "inner join area a on (a.id_area = u.id_area);";
+            String sql = "select u.id_user,e.nombres,e.apellido_p,e.apellido_m,u.puesto,u.area from user u\n" +
+                         "inner join empleados e on (u.id_empleado = e.id_empleado);";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             Object datos[] = new Object[6];
@@ -72,16 +70,42 @@ public class ManagerUsers {
 
     }//getEmpleados
     
-    public boolean insertarEmpleado(String usuario, String nombres, String apellidoP, String apellidoM, String telefono, String pass) {
-        
+    public boolean insertarEmpleado(String usuario, String nombres, String apellidoP, String apellidoM, String telefono, String pass,String calle, String colonia, 
+                                    String curp,String rfc,String fecha,String codigoP,String puesto, String area,boolean documentacion) {
+        int id_empleado;
         try {
-            //inserta un empleado
-            String sql = "insert into empleados values('"+usuario+"','"+nombres+"','"+apellidoP+"','"+apellidoM+"','"+telefono+"','"+pass+"');";
+            //Hacemos la conexión
             conexion = db.getConexion();
+            //Creamos la variable para hacer operaciones CRUD
             Statement st = conexion.createStatement();
+            //Creamos la variable para guardar el resultado de las consultas
+            ResultSet rs;
+            
+            //Primero insertamos al empleado
+            String sql = "insert into empleados (nombres,apellido_p,apellido_m,calle,colonia,telefono,codigo_postal,fecha_nacimiento,curp,rfc) "
+                         +"values('"+nombres+"','"+apellidoP+"','"+apellidoM+"','"+calle+"','"+colonia+"','"
+                         +telefono+"','"+codigoP+"','"+fecha+"','"+curp+"','"+rfc+"');";
             st.executeUpdate(sql);
+            System.out.println("Inserción exitosa de empleado");
+            
+            //Una vez insertado, obtendremos el ID del empleado
+            sql = "select id_empleado from empleados where nombres = '"+nombres+"' and apellido_p = '"+apellidoP+"' and apellido_m = '"+apellidoM
+                  +"'and calle = '"+calle+"' and colonia = '"+colonia+"' and telefono = '"+telefono+"' and codigo_postal = '"+codigoP
+                  +"'and fecha_nacimiento = '"+fecha+"' and curp = '"+curp+"' and rfc = '"+rfc+"';";
+            rs = st.executeQuery(sql);
+            rs.next();
+            id_empleado = rs.getInt(1);
+            System.out.println("Se obtuvo el id exitosamente: "+id_empleado);
+            
+            //Ya se realizo la inserción y se encontro el ID de ese nuevo registro, ahora insertamos el usuario y ligamos el ID, su cargo y su área
+            sql = "insert into user values('"+usuario+"',"+id_empleado+","+documentacion+",'"+pass+"','"+puesto+"','"+area+"');";
+            st.executeUpdate(sql);
+            System.out.println("Inserción exitosa de usuario");
+            
+            //Cerramos la conexión
             conexion.close();
             return true;
+            
         } catch (SQLException ex) {
             System.out.printf("Error al insertar el empleado en SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
@@ -110,13 +134,29 @@ public class ManagerUsers {
     
     public boolean eliminarEmpleado(String usuario) {
 
+        int id_empleado;
         
         try {
-            //Elimina un empleado
-            String sql = "delete from empleados where usuario = '"+usuario+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
+            ResultSet rs;
+            //Antes de eliminar, primero obtenemos el id del empleado
+            String sql = "select id_empleado from user where id_user = '"+usuario+"';";
+            rs = st.executeQuery(sql);
+            rs.next();
+            id_empleado = rs.getInt(1);
+            System.out.println("Tenemos el id del empleado: "+id_empleado);
+            
+            //Ahora eliminamos el registro que contenia dicho usuario
+            sql = "delete from user where id_user = '"+usuario+"';";
             st.executeUpdate(sql);
+            System.out.println("Se elimino el usuario "+usuario+" exitosamente");
+            
+            //Y ahora eliminamos el registro del empleado
+            sql = "delete from empleados where id_empleado = "+id_empleado+";";
+            st.executeUpdate(sql);
+            System.out.println("Se elimino el empleado "+id_empleado+" exitosamente");
+            
             conexion.close();
             return true;
         } catch (SQLException ex) {
@@ -125,19 +165,19 @@ public class ManagerUsers {
             return false;
         }
 
-    }//actualizarEmpleado
+    }//Eliminar empleado
     
     public boolean existeUsuario(String usuario) {
 
         boolean estado = false;
         
         try {
-            //Consulta de los productos
-            String sql = "select * from empleados where Usuario = '"+usuario+"';";
+            //Consulta para saber si existe o no dicho usuario
+            String sql = "select * from user where id_user = '"+usuario+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
-            estado = rs.next();
+            estado = rs.next();//Guardamos el resultado para retornar la respuesta.
             conexion.close();
             
         } catch (SQLException ex) {
@@ -148,5 +188,44 @@ public class ManagerUsers {
             return estado;
 
     }//existeUsuario
+    
+    //LLENADO DE COMBOBOX
+    public void getComboPuestos(JComboBox combo) {
+        try{
+           
+            String sql = "select * from Puestos;";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                combo.addItem(rs.getObject(1).toString());
+            }
+            
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener los puestos para ingresarlos al combo SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
+    }//Obtiene todas los puestos y las mete al combobox
+    
+    public void getComboAreas(JComboBox combo) {
+        try{
+           
+            String sql = "select * from Area;";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                combo.addItem(rs.getObject(1).toString());
+            }
+            
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener las áreas para ingresarlos al combo SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
+    }//Obtiene todas los puestos y las mete al combobox
     
 }//class

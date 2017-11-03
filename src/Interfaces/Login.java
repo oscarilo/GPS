@@ -6,11 +6,11 @@
 package Interfaces;
 
 import com.alee.laf.WebLookAndFeel;
-import com.sun.java.swing.plaf.motif.MotifLookAndFeel;
+//import com.sun.java.swing.plaf.motif.MotifLookAndFeel;
 import java.awt.Color;
 import javax.swing.ImageIcon;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+//import javax.swing.UIManager;
+//import javax.swing.UnsupportedLookAndFeelException;
 
 //Importamos los TDA que haraán la conexión con la BD
 import Clases.Conexion;
@@ -264,8 +264,8 @@ public class Login extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) throws UnsupportedLookAndFeelException{
-      UIManager.setLookAndFeel(new WebLookAndFeel());
+    public static void main(String args[]) /*throws UnsupportedLookAndFeelException*/{
+      //UIManager.setLookAndFeel(new WebLookAndFeel());
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 
