@@ -12,13 +12,21 @@ import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+//Importamos los TDA que haraán la conexión con la BD
+import Clases.Conexion;
+import Clases.ManagerLogin;
+import java.awt.event.KeyEvent;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author oscar
  */
 public class Login extends javax.swing.JFrame {
-    
+    private String password;
+    private String user;
+    private Conexion check_con;
+    private ManagerLogin manager;
     /**
      * Creates new form LogIn
      */
@@ -35,6 +43,11 @@ public class Login extends javax.swing.JFrame {
         setBackground(new Color(0, 255, 0, 0));
         pn_principal_Login.setBackground(new Color(0, 255, 0, 0));
         setIconImage(new ImageIcon(getClass().getResource("/Iconos/IEE.png")).getImage());
+        
+        //Asignación de memoria a objetos
+        manager = new ManagerLogin();
+        check_con = new Conexion();
+        
     }
 
     /**
@@ -63,10 +76,20 @@ public class Login extends javax.swing.JFrame {
         pn_principal_Login.setLayout(null);
 
         tf_campoUsuario.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        tf_campoUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tf_campoUsuarioKeyReleased(evt);
+            }
+        });
         pn_principal_Login.add(tf_campoUsuario);
         tf_campoUsuario.setBounds(220, 110, 200, 30);
 
         tf_campoContraseña.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        tf_campoContraseña.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tf_campoContraseñaKeyReleased(evt);
+            }
+        });
         pn_principal_Login.add(tf_campoContraseña);
         tf_campoContraseña.setBounds(220, 160, 200, 28);
 
@@ -134,12 +157,109 @@ public class Login extends javax.swing.JFrame {
 
     private void btn_ingresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ingresarActionPerformed
          // TODO add your handling code here:
-         Principal ob = new Principal();
-                 ob.setVisible(true);
-                 this.dispose();
+         if (check_con.hayConexion()) {
+            if (iniciarSesion()) {
+                Principal ob = new Principal();
+                this.hide();
+                //ob.setIDUsuario(id);
+                ob.setVisible(true);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "NO HAY CONEXION CON LA BD");
+        }
     }//GEN-LAST:event_btn_ingresarActionPerformed
+
+    private void tf_campoUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tf_campoUsuarioKeyReleased
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            System.exit(0);
+        }
+    }//GEN-LAST:event_tf_campoUsuarioKeyReleased
+
+    private void tf_campoContraseñaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tf_campoContraseñaKeyReleased
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            System.exit(0);
+
+        } else if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (iniciarSesion()) {
+                Principal ob = new Principal();
+                this.hide();
+                //ob.setIDUsuario(id);
+                ob.setVisible(true);
+            }
+
+        }
+    }//GEN-LAST:event_tf_campoContraseñaKeyReleased
    
+    public boolean validar(){
+        boolean res = false;
+        if(tf_campoUsuario.getText().isEmpty() || tf_campoContraseña.getText().isEmpty()){
+            res = true;
+        }
+        return res;
+    }
     
+    private boolean validarID() {
+
+        if (tf_campoUsuario.getText().equals("")) {
+            return false; //si no ingreso ningun numero
+        }
+        return true;
+
+    }//validarID
+    
+    private boolean validarPassword() {
+        password = tf_campoContraseña.getText();
+        if (password.isEmpty()) {
+            return false; //se retorna false si no ingreso contraseÃ±a
+        }
+        return true;
+    }//validarPasswo
+    
+    private boolean iniciarSesion() {
+        if (validarID()) {
+            if (validarPassword()) {
+                user = tf_campoUsuario.getText();
+                int resultado = manager.iniciarSesion(user, password); //obtenemos de la base de datos informacion sobre el si se concreto el login
+                if (resultado == 0) {
+                    JOptionPane.showMessageDialog(this, "El usuario no existe!","Información",JOptionPane.INFORMATION_MESSAGE);
+                    tf_campoUsuario.setText("");
+                    tf_campoContraseña.setText("");
+                    tf_campoUsuario.requestFocus();
+                    return false;
+                }//
+                //NO ES NECESARIO-----------------------------------------------------------------
+                if (resultado == 2) {
+
+                    JOptionPane.showMessageDialog(this, "El usuario no es administrador");
+                    tf_campoContraseña.setText("");
+                    tf_campoContraseña.requestFocus();
+                    return false;
+                }//
+
+                if (resultado == 1) {
+                    JOptionPane.showMessageDialog(this, "Contraseña incorrecta!","Información",JOptionPane.WARNING_MESSAGE);
+                    tf_campoContraseña.setText("");
+                    tf_campoContraseña.requestFocus();
+                    return false;
+                }//
+
+                if (resultado == 3) {
+                    return true;
+                }//
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Ingrese una Contraseña");
+
+            }//
+        } else {
+            JOptionPane.showMessageDialog(this, "Ingrese un usuario valido");
+
+        }//
+
+        return false;
+    }//Iniciar Sesion
     
     /**
      * @param args the command line arguments
