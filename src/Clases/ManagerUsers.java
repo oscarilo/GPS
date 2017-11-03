@@ -134,13 +134,29 @@ public class ManagerUsers {
     
     public boolean eliminarEmpleado(String usuario) {
 
+        int id_empleado;
         
         try {
-            //Elimina un empleado
-            String sql = "delete from empleados where usuario = '"+usuario+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
+            ResultSet rs;
+            //Antes de eliminar, primero obtenemos el id del empleado
+            String sql = "select id_empleado from user where id_user = '"+usuario+"';";
+            rs = st.executeQuery(sql);
+            rs.next();
+            id_empleado = rs.getInt(1);
+            System.out.println("Tenemos el id del empleado: "+id_empleado);
+            
+            //Ahora eliminamos el registro que contenia dicho usuario
+            sql = "delete from user where id_user = '"+usuario+"';";
             st.executeUpdate(sql);
+            System.out.println("Se elimino el usuario "+usuario+" exitosamente");
+            
+            //Y ahora eliminamos el registro del empleado
+            sql = "delete from empleados where id_empleado = "+id_empleado+";";
+            st.executeUpdate(sql);
+            System.out.println("Se elimino el empleado "+id_empleado+" exitosamente");
+            
             conexion.close();
             return true;
         } catch (SQLException ex) {
@@ -149,19 +165,19 @@ public class ManagerUsers {
             return false;
         }
 
-    }//actualizarEmpleado
+    }//Eliminar empleado
     
     public boolean existeUsuario(String usuario) {
 
         boolean estado = false;
         
         try {
-            //Consulta de los productos
-            String sql = "select * from empleados where Usuario = '"+usuario+"';";
+            //Consulta para saber si existe o no dicho usuario
+            String sql = "select * from user where id_user = '"+usuario+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
-            estado = rs.next();
+            estado = rs.next();//Guardamos el resultado para retornar la respuesta.
             conexion.close();
             
         } catch (SQLException ex) {

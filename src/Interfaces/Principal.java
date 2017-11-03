@@ -88,6 +88,11 @@ public class Principal extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
 
         Eliminar.setText("Eliminar");
+        Eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EliminarActionPerformed(evt);
+            }
+        });
         MenuUsuarios.add(Eliminar);
 
         Actualizar.setText("Actualizar");
@@ -337,7 +342,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
          // TODO add your handling code here:
-         Object[] botones = {"Confirmar","Cerrar Sesión","Cancelar"};
+        Object[] botones = {"Confirmar","Cerrar Sesión","Cancelar"};
         int opcion = JOptionPane.showOptionDialog(this,"¿Salir del Sistema?", "Confirmación",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
         
@@ -403,6 +408,32 @@ public class Principal extends javax.swing.JFrame {
         addEmpleados ob = new addEmpleados(this, true);
         ob.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarActionPerformed
+        // TODO add your handling code here:
+        //Obtenemos la fila y con dicha fila obtenemos el usuario
+        int fila = tablaUsuarios.getSelectedRow();
+        String usuario = tablaUsuarios.getValueAt(fila, 0).toString();
+        //Creamos un cuadro de dialogo para que confirme la eliminación del usuario o la cancele
+        Object[] botones = {"Confirmar","Cancelar"};
+        int opcion = JOptionPane.showOptionDialog(this,"¿Eliminar al usuario "+usuario+"?", "Confirmación",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
+        
+        //Acepta eliminar al usuario
+        if(opcion == 0){
+
+            if(manager_users.eliminarEmpleado(usuario)){
+                JOptionPane.showMessageDialog(null, "El usuario a sido eliminado exisitosamente.");
+                tablaUsuarios.setModel(manager_users.getEmpleados());
+            }//if(eliminarEmpleado())
+            else{
+                    JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
+            }
+        }//if(opcion == 0)
+        
+        
+        
+    }//GEN-LAST:event_EliminarActionPerformed
        
     
     /**

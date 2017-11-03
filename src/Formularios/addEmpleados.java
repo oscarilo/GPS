@@ -69,6 +69,7 @@ public class addEmpleados extends javax.swing.JDialog {
         comboArea = new javax.swing.JComboBox<>();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        lblAviso = new javax.swing.JLabel();
         txtFecha = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -130,6 +131,11 @@ public class addEmpleados extends javax.swing.JDialog {
         jLabel11.setText("Usuario:");
 
         txtUsuario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtUsuario.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtUsuarioFocusLost(evt);
+            }
+        });
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel12.setText("Contraseña:");
@@ -167,9 +173,9 @@ public class addEmpleados extends javax.swing.JDialog {
         pn_usuarioLayout.setHorizontalGroup(
             pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pn_usuarioLayout.createSequentialGroup()
+                .addGap(39, 39, 39)
                 .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pn_usuarioLayout.createSequentialGroup()
-                        .addGap(39, 39, 39)
                         .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(pn_usuarioLayout.createSequentialGroup()
                                 .addComponent(jLabel11)
@@ -193,11 +199,15 @@ public class addEmpleados extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(comboCargo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(pn_usuarioLayout.createSequentialGroup()
-                        .addGap(240, 240, 240)
-                        .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lblAviso)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap(21, Short.MAX_VALUE))
+            .addGroup(pn_usuarioLayout.createSequentialGroup()
+                .addGap(241, 241, 241)
+                .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pn_usuarioLayout.setVerticalGroup(
             pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -221,11 +231,13 @@ public class addEmpleados extends javax.swing.JDialog {
                         .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel14)
                             .addComponent(comboArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(31, 31, 31)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblAviso)
+                .addGap(18, 18, 18)
                 .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar)
                     .addComponent(btnCancelar))
-                .addGap(72, 72, 72))
+                .addGap(60, 60, 60))
         );
 
         javax.swing.GroupLayout pn_empleadoLayout = new javax.swing.GroupLayout(pn_empleado);
@@ -408,6 +420,32 @@ public class addEmpleados extends javax.swing.JDialog {
         
     }//GEN-LAST:event_formWindowOpened
 
+    private void txtUsuarioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsuarioFocusLost
+        // TODO add your handling code here:
+        if(!(txtUsuario.getText().isEmpty())){
+            
+            //Comparamos si existe o no
+            if(manager_users.existeUsuario(txtUsuario.getText())){
+                //Existe, entonces pintamos en rojo los TextField
+                txtUsuario.setBackground(java.awt.Color.RED);
+                btnAceptar.setEnabled(false);
+                lblAviso.setText("El nombre de usuario ya se encuentra registrado.");
+                
+            }else{
+                //Si no existe, entonces pintamos de verde los TextField
+                txtUsuario.setBackground(java.awt.Color.GREEN);
+                btnAceptar.setEnabled(true);
+                lblAviso.setText("");
+            }
+            
+        }//Buscar si existe o no
+        else{
+            txtUsuario.setBackground(java.awt.Color.WHITE);
+            btnAceptar.setEnabled(true);
+            lblAviso.setText("");
+        }
+    }//GEN-LAST:event_txtUsuarioFocusLost
+
     /**
      * @param args the command line arguments
      */
@@ -470,6 +508,7 @@ public class addEmpleados extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel lblAviso;
     private javax.swing.JPanel pn_empleado;
     private javax.swing.JPanel pn_usuario;
     private javax.swing.JTextField txtApellidoM;
