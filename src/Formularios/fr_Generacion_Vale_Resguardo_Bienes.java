@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Interfaces;
+package Formularios;
 
 /**
  *
@@ -29,7 +29,6 @@ public class fr_Generacion_Vale_Resguardo_Bienes extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Generación de Vales de Resguardo de Bienes");
-        setPreferredSize(new java.awt.Dimension(1372, 836));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
