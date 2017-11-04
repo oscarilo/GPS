@@ -12,8 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JCheckBox;
-import javax.swing.JTable;
 
 /**
  *
@@ -86,7 +84,6 @@ public class ManagerUsers {
                          +"values('"+nombres+"','"+apellidoP+"','"+apellidoM+"','"+calle+"','"+colonia+"','"
                          +telefono+"','"+codigoP+"','"+fecha+"','"+curp+"','"+rfc+"');";
             st.executeUpdate(sql);
-            System.out.println("Inserción exitosa de empleado");
             
             //Una vez insertado, obtendremos el ID del empleado
             sql = "select id_empleado from empleados where nombres = '"+nombres+"' and apellido_p = '"+apellidoP+"' and apellido_m = '"+apellidoM
@@ -95,12 +92,37 @@ public class ManagerUsers {
             rs = st.executeQuery(sql);
             rs.next();
             id_empleado = rs.getInt(1);
-            System.out.println("Se obtuvo el id exitosamente: "+id_empleado);
             
             //Ya se realizo la inserción y se encontro el ID de ese nuevo registro, ahora insertamos el usuario y ligamos el ID, su cargo y su área
             sql = "insert into user values('"+usuario+"',"+id_empleado+","+documentacion+",'"+pass+"','"+puesto+"','"+area+"');";
             st.executeUpdate(sql);
-            System.out.println("Inserción exitosa de usuario");
+            
+            //Registramos el nuevo usuario en la tabla de permisos(por el momento no tendra ningún permiso, ya que solo es el registro)
+            //Primero obtenemos la cantidad de modulos que hay
+            sql = "select count(*) from modulos";
+            rs = st.executeQuery(sql);
+            rs.next();
+            int tamaño = rs.getInt(1);
+            
+            //Creamos el arreglo donde guardaremos el nombre de cada modulo
+            String[] modulos = new String[tamaño];
+            //Hacemos la consulta para obtener todos los nombres de los modulos
+            sql = "select * from modulos";
+            rs = st.executeQuery(sql);
+            rs.next();
+            //Llenamos el arreglo con los nombres de los modulos
+            for(int i = 0;i<tamaño;i++){
+                modulos[i] = rs.getString(1);
+                rs.next();
+            }//for
+            
+            //Insertamos todos los modulos sin permisos al usuario
+            for(int i = 0;i<tamaño;i++){
+                sql = "insert into Permisos values('"+usuario+"','"+modulos[i]+"',false,false,false,false);";
+                st.executeUpdate(sql);
+            }//for
+            
+            //Ahora le damos los permisos de acuerdo al cargo que tiene
             
             //Cerramos la conexión
             conexion.close();
@@ -188,7 +210,7 @@ public class ManagerUsers {
             return estado;
 
     }//existeUsuario
-    
+/*-------------------------------------------------------------------------------------------------------------------*/    
     //LLENADO DE COMBOBOX
     public void getComboPuestos(JComboBox combo) {
         try{
