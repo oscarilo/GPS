@@ -13,6 +13,7 @@ import javax.swing.JTabbedPane;
 
 //Importamos los formularios
 import Formularios.addEmpleados;
+import Formularios.Ventana_permisos;
 
 //Importamos los TDA del paquete Clases
 import Clases.ManagerUsers;
@@ -24,8 +25,17 @@ import javax.swing.SwingUtilities;
  * @author oscar
  */
 public class Principal extends javax.swing.JFrame {
-    
+    //VARIABLES PARA CLASES
     ManagerUsers manager_users;
+    
+    //VARIABLES QUE FUNCIONAN COMO BANDERAS
+    
+    //Está variable es para identificar cuando voy a dar de alta o cuando voy a 
+    //actualizar un usuario (reutilizare la misma ventana addEmpleado) 
+    public static int banderaUser = 1; 
+    
+    //VARIABLES GLOBALES
+    public static String usuario;
     
     /**
      * Creates new form Principal
@@ -66,6 +76,13 @@ public class Principal extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        usuarios = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        pn_tablaUsuarios = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaUsuarios = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
+        btnAddEmpleado = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
         configuracion = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
@@ -75,13 +92,6 @@ public class Principal extends javax.swing.JFrame {
         btnAbajo = new javax.swing.JButton();
         btnDerecha = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        usuarios = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tablaUsuarios = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
-        jButton1 = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -96,12 +106,22 @@ public class Principal extends javax.swing.JFrame {
         MenuUsuarios.add(Eliminar);
 
         Actualizar.setText("Actualizar");
+        Actualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActualizarActionPerformed(evt);
+            }
+        });
         MenuUsuarios.add(Actualizar);
 
         Promover.setText("Promover");
         MenuUsuarios.add(Promover);
 
         Permisos.setText("Permisos");
+        Permisos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PermisosActionPerformed(evt);
+            }
+        });
         MenuUsuarios.add(Permisos);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -142,6 +162,67 @@ public class Principal extends javax.swing.JFrame {
         );
 
         tabbedPrincipal.addTab("  Inventario", new javax.swing.ImageIcon(getClass().getResource("/Iconos/inventario.png")), pestañaInventario); // NOI18N
+
+        jPanel5.setLayout(null);
+
+        pn_tablaUsuarios.setBackground(new java.awt.Color(255, 255, 255));
+        pn_tablaUsuarios.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+
+        tablaUsuarios.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Usuario", "Nombre(s)", "Apellido Paterno", "Apellido Materno", "Cargo", "Área"
+            }
+        ));
+        tablaUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tablaUsuariosMouseReleased(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tablaUsuarios);
+
+        javax.swing.GroupLayout pn_tablaUsuariosLayout = new javax.swing.GroupLayout(pn_tablaUsuarios);
+        pn_tablaUsuarios.setLayout(pn_tablaUsuariosLayout);
+        pn_tablaUsuariosLayout.setHorizontalGroup(
+            pn_tablaUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 926, Short.MAX_VALUE)
+        );
+        pn_tablaUsuariosLayout.setVerticalGroup(
+            pn_tablaUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
+        );
+
+        jPanel5.add(pn_tablaUsuarios);
+        pn_tablaUsuarios.setBounds(10, 10, 930, 450);
+
+        btnAddEmpleado.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnAddEmpleado.setText("Agregar");
+        btnAddEmpleado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddEmpleadoActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btnAddEmpleado);
+        btnAddEmpleado.setBounds(960, 40, 100, 30);
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
+        jPanel5.add(jLabel6);
+        jLabel6.setBounds(0, 0, 1367, 769);
+
+        javax.swing.GroupLayout usuariosLayout = new javax.swing.GroupLayout(usuarios);
+        usuarios.setLayout(usuariosLayout);
+        usuariosLayout.setHorizontalGroup(
+            usuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 1367, Short.MAX_VALUE)
+        );
+        usuariosLayout.setVerticalGroup(
+            usuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 769, Short.MAX_VALUE)
+        );
+
+        tabbedPrincipal.addTab("Usuarios", new javax.swing.ImageIcon(getClass().getResource("/Iconos/configuracion.png")), usuarios); // NOI18N
 
         jPanel4.setLayout(null);
 
@@ -248,67 +329,6 @@ public class Principal extends javax.swing.JFrame {
 
         tabbedPrincipal.addTab("  Configuración", new javax.swing.ImageIcon(getClass().getResource("/Iconos/configuracion.png")), configuracion); // NOI18N
 
-        jPanel5.setLayout(null);
-
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-
-        tablaUsuarios.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Usuario", "Nombre(s)", "Apellido Paterno", "Apellido Materno", "Cargo", "Área"
-            }
-        ));
-        tablaUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tablaUsuariosMouseReleased(evt);
-            }
-        });
-        jScrollPane1.setViewportView(tablaUsuarios);
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 926, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
-        );
-
-        jPanel5.add(jPanel2);
-        jPanel2.setBounds(10, 10, 930, 450);
-
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton1.setText("Agregar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(jButton1);
-        jButton1.setBounds(960, 40, 100, 30);
-
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
-        jPanel5.add(jLabel6);
-        jLabel6.setBounds(0, 0, 1367, 769);
-
-        javax.swing.GroupLayout usuariosLayout = new javax.swing.GroupLayout(usuarios);
-        usuarios.setLayout(usuariosLayout);
-        usuariosLayout.setHorizontalGroup(
-            usuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 1367, Short.MAX_VALUE)
-        );
-        usuariosLayout.setVerticalGroup(
-            usuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 769, Short.MAX_VALUE)
-        );
-
-        tabbedPrincipal.addTab("Usuarios", new javax.swing.ImageIcon(getClass().getResource("/Iconos/configuracion.png")), usuarios); // NOI18N
-
         jMenu1.setText("File");
 
         jMenuItem1.setText("jMenuItem1");
@@ -402,18 +422,24 @@ public class Principal extends javax.swing.JFrame {
         
     }//GEN-LAST:event_tablaUsuariosMouseReleased
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnAddEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEmpleadoActionPerformed
         // TODO add your handling code here:
+        /*
+          banderaUser estará siempre en 1 cuando se quiera añadir un empleado o mientras no se use,
+          si se quiere actualizar entonces será necesario cambiarlo a dos para saber que la ventana 
+          addEmpleados se utilizarára para actualizar.
+        */
+        banderaUser = 1;
         //Llamamos el forumulario para añadir un nuevo empleado
         addEmpleados ob = new addEmpleados(this, true);
         ob.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnAddEmpleadoActionPerformed
 
     private void EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarActionPerformed
         // TODO add your handling code here:
         //Obtenemos la fila y con dicha fila obtenemos el usuario
         int fila = tablaUsuarios.getSelectedRow();
-        String usuario = tablaUsuarios.getValueAt(fila, 0).toString();
+        usuario = tablaUsuarios.getValueAt(fila, 0).toString();
         //Creamos un cuadro de dialogo para que confirme la eliminación del usuario o la cancele
         Object[] botones = {"Confirmar","Cancelar"};
         int opcion = JOptionPane.showOptionDialog(this,"¿Eliminar al usuario "+usuario+"?", "Confirmación",
@@ -434,6 +460,30 @@ public class Principal extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_EliminarActionPerformed
+
+    private void ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarActionPerformed
+        // TODO add your handling code here:
+        /*
+          banderaUser estará siempre en 1 cuando se quiera añadir un empleado o mientras no se use
+          por eso es necesario cambiarlo a dos para saber que la ventana addEmpleados se utilizarára
+          para actualizar.
+        */
+        banderaUser = 2;
+        //Llamamos el forumulario para actuaizar un empleado
+        addEmpleados ob = new addEmpleados(this, true);
+        ob.setVisible(true);
+        
+    }//GEN-LAST:event_ActualizarActionPerformed
+
+    private void PermisosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PermisosActionPerformed
+        // TODO add your handling code here:
+        //Obtenemos el usuario seleccionado
+        int fila = tablaUsuarios.getSelectedRow();
+        usuario = tablaUsuarios.getValueAt(fila, 0).toString();
+        //Llamamos el formulario de los permisos
+        Ventana_permisos ob = new Ventana_permisos(this, true);
+        ob.setVisible(true);
+    }//GEN-LAST:event_PermisosActionPerformed
        
     
     /**
@@ -481,11 +531,11 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem Permisos;
     private javax.swing.JMenuItem Promover;
     private javax.swing.JButton btnAbajo;
+    private javax.swing.JButton btnAddEmpleado;
     private javax.swing.JButton btnArriba;
     private javax.swing.JButton btnDerecha;
     private javax.swing.JButton btnIzquierda;
     private javax.swing.JPanel configuracion;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -496,12 +546,12 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pestañaInventario;
+    private javax.swing.JPanel pn_tablaUsuarios;
     private javax.swing.JTabbedPane tabbedPrincipal;
     public static javax.swing.JTable tablaUsuarios;
     private javax.swing.JPanel usuarios;
