@@ -18,13 +18,14 @@ import javax.swing.table.DefaultTableModel;
  * @author kevin
  */
 public class ManagerUsers {
-    
+    ManagerPermisos manager_permisos;
     private Connection conexion;
     private Conexion db;
     
     public ManagerUsers(){
     
         db = new Conexion();
+        manager_permisos = new ManagerPermisos();
         
     }//constructor
     
@@ -123,7 +124,7 @@ public class ManagerUsers {
             }//for
             
             //Ahora le damos los permisos de acuerdo al cargo que tiene
-            
+            manager_permisos.asignarPermisos_Puesto(puesto, usuario);
             //Cerramos la conexión
             conexion.close();
             return true;
@@ -162,23 +163,27 @@ public class ManagerUsers {
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs;
-            //Antes de eliminar, primero obtenemos el id del empleado
-            String sql = "select id_empleado from user where id_user = '"+usuario+"';";
+            
+            //Para poder eliminar al usuario, primero será necesario borrar los registros de otras tablas donde este
+            //ligado su llave foraneá y comenzaremos por eliminar los registros de los permisos
+            String sql = "delete from permisos where id_user = '"+usuario+"';";
+            st.executeUpdate(sql);
+            
+            //Antes de eliminar al usuario, primero obtenemos el id del empleado
+            sql = "select id_empleado from user where id_user = '"+usuario+"';";
             rs = st.executeQuery(sql);
             rs.next();
             id_empleado = rs.getInt(1);
-            System.out.println("Tenemos el id del empleado: "+id_empleado);
             
             //Ahora eliminamos el registro que contenia dicho usuario
             sql = "delete from user where id_user = '"+usuario+"';";
             st.executeUpdate(sql);
-            System.out.println("Se elimino el usuario "+usuario+" exitosamente");
             
             //Y ahora eliminamos el registro del empleado
             sql = "delete from empleados where id_empleado = "+id_empleado+";";
             st.executeUpdate(sql);
-            System.out.println("Se elimino el empleado "+id_empleado+" exitosamente");
             
+            //Cerramos la conexión
             conexion.close();
             return true;
         } catch (SQLException ex) {
@@ -212,25 +217,6 @@ public class ManagerUsers {
     }//existeUsuario
 /*-------------------------------------------------------------------------------------------------------------------*/    
     //LLENADO DE COMBOBOX
-    public void getComboPuestos(JComboBox combo) {
-        try{
-           
-            String sql = "select * from Puestos;";
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            while(rs.next()){
-                combo.addItem(rs.getObject(1).toString());
-            }
-            
-            conexion.close();
-        } catch (SQLException ex) {
-            System.out.printf("Error al obtener los puestos para ingresarlos al combo SQL");
-            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-        
-    }//Obtiene todas los puestos y las mete al combobox
-    
     public void getComboAreas(JComboBox combo) {
         try{
            

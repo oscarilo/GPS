@@ -13,7 +13,6 @@ import javax.swing.JTabbedPane;
 
 //Importamos los formularios
 import Formularios.addEmpleados;
-import Formularios.Ventana_permisos;
 
 //Importamos los TDA del paquete Clases
 import Clases.ManagerUsers;
@@ -96,6 +95,10 @@ public class Principal extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        menuOpciones = new javax.swing.JMenu();
+        menuPermisos = new javax.swing.JMenuItem();
+        menuPuestos = new javax.swing.JMenuItem();
+        menuAreas = new javax.swing.JMenuItem();
 
         Eliminar.setText("Eliminar");
         Eliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -344,6 +347,24 @@ public class Principal extends javax.swing.JFrame {
         jMenu2.setText("Edit");
         jMenuBar1.add(jMenu2);
 
+        menuOpciones.setText("Opciones");
+
+        menuPermisos.setText("Permisos");
+        menuPermisos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuPermisosActionPerformed(evt);
+            }
+        });
+        menuOpciones.add(menuPermisos);
+
+        menuPuestos.setText("Puestos");
+        menuOpciones.add(menuPuestos);
+
+        menuAreas.setText("Áreas");
+        menuOpciones.add(menuAreas);
+
+        jMenuBar1.add(menuOpciones);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -424,12 +445,6 @@ public class Principal extends javax.swing.JFrame {
 
     private void btnAddEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEmpleadoActionPerformed
         // TODO add your handling code here:
-        /*
-          banderaUser estará siempre en 1 cuando se quiera añadir un empleado o mientras no se use,
-          si se quiere actualizar entonces será necesario cambiarlo a dos para saber que la ventana 
-          addEmpleados se utilizarára para actualizar.
-        */
-        banderaUser = 1;
         //Llamamos el forumulario para añadir un nuevo empleado
         addEmpleados ob = new addEmpleados(this, true);
         ob.setVisible(true);
@@ -484,6 +499,12 @@ public class Principal extends javax.swing.JFrame {
         Ventana_permisos ob = new Ventana_permisos(this, true);
         ob.setVisible(true);
     }//GEN-LAST:event_PermisosActionPerformed
+
+    private void menuPermisosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPermisosActionPerformed
+        // TODO add your handling code here:
+        Ventana_permisos_puesto ob = new Ventana_permisos_puesto(this, true);
+        ob.setVisible(true);
+    }//GEN-LAST:event_menuPermisosActionPerformed
        
     
     /**
@@ -550,6 +571,10 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JMenuItem menuAreas;
+    private javax.swing.JMenu menuOpciones;
+    private javax.swing.JMenuItem menuPermisos;
+    private javax.swing.JMenuItem menuPuestos;
     private javax.swing.JPanel pestañaInventario;
     private javax.swing.JPanel pn_tablaUsuarios;
     private javax.swing.JTabbedPane tabbedPrincipal;
