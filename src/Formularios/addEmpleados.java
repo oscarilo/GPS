@@ -5,6 +5,7 @@
  */
 package Formularios;
 import Clases.ManagerUsers;
+import Clases.ManagerPermisos;
 import Interfaces.Principal;
 import javax.swing.JOptionPane;
 /**
@@ -16,6 +17,7 @@ public class addEmpleados extends javax.swing.JDialog {
     boolean documentacion;
     
     ManagerUsers manager_users;
+    ManagerPermisos manager_permisos;
     /**
      * Creates new form addEmpleados
      */
@@ -25,6 +27,7 @@ public class addEmpleados extends javax.swing.JDialog {
         
         //Asignamos memoria a los objetos
         manager_users = new ManagerUsers();
+        manager_permisos = new ManagerPermisos();
         
         if(Principal.banderaUser == 2){
             txtUsuario.setEnabled(false);
@@ -416,7 +419,7 @@ public class addEmpleados extends javax.swing.JDialog {
         // TODO add your handling code here:
         //Llenamos los combobox
         comboCargo.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-        manager_users.getComboPuestos(comboCargo);
+        manager_permisos.getComboPuestos(comboCargo);
         
         comboArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         manager_users.getComboAreas(comboArea);
