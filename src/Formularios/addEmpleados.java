@@ -4,8 +4,10 @@
  * and open the template in the editor.
  */
 package Formularios;
+
 import Clases.ManagerUsers;
-import Clases.ManagerPermisos;
+import Clases.ManagerComplemento;
+
 import Interfaces.Principal;
 import javax.swing.JOptionPane;
 /**
@@ -17,7 +19,7 @@ public class addEmpleados extends javax.swing.JDialog {
     boolean documentacion;
     
     ManagerUsers manager_users;
-    ManagerPermisos manager_permisos;
+    ManagerComplemento manager_complemento;
     /**
      * Creates new form addEmpleados
      */
@@ -27,7 +29,7 @@ public class addEmpleados extends javax.swing.JDialog {
         
         //Asignamos memoria a los objetos
         manager_users = new ManagerUsers();
-        manager_permisos = new ManagerPermisos();
+        manager_complemento = new ManagerComplemento();
         
         if(Principal.banderaUser == 2){
             txtUsuario.setEnabled(false);
@@ -419,10 +421,10 @@ public class addEmpleados extends javax.swing.JDialog {
         // TODO add your handling code here:
         //Llenamos los combobox
         comboCargo.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-        manager_permisos.getComboPuestos(comboCargo);
+        manager_complemento.getComboPuestos(comboCargo);
         
         comboArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-        manager_users.getComboAreas(comboArea);
+        manager_complemento.getComboAreas(comboArea);
         
     }//GEN-LAST:event_formWindowOpened
 

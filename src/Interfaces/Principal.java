@@ -16,6 +16,10 @@ import Formularios.addEmpleados;
 
 //Importamos los TDA del paquete Clases
 import Clases.ManagerUsers;
+import Clases.ManagerInventario;
+
+import Formularios.Ventana_Puestos_Area;
+import Formularios.addInventario;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 
@@ -26,6 +30,7 @@ import javax.swing.SwingUtilities;
 public class Principal extends javax.swing.JFrame {
     //VARIABLES PARA CLASES
     ManagerUsers manager_users;
+    ManagerInventario manager_inventario;
     
     //VARIABLES QUE FUNCIONAN COMO BANDERAS
     
@@ -47,9 +52,11 @@ public class Principal extends javax.swing.JFrame {
         
         //Asignamos memoria al objeto
         manager_users = new ManagerUsers();
+        manager_inventario = new ManagerInventario();
         
-        //Propiedades de las tablas
+        //Deshabilitamos el movimiento de los encabezados de las tablas
         tablaUsuarios.getTableHeader().setReorderingAllowed(false);
+        tablaInventario.getTableHeader().setReorderingAllowed(false);
         
     }
       
@@ -73,7 +80,10 @@ public class Principal extends javax.swing.JFrame {
         tabbedPrincipal = new javax.swing.JTabbedPane();
         pestañaInventario = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        pn_tablaInventario = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablaInventario = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
+        btnAddInventario = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         usuarios = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -97,8 +107,7 @@ public class Principal extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         menuOpciones = new javax.swing.JMenu();
         menuPermisos = new javax.swing.JMenuItem();
-        menuPuestos = new javax.swing.JMenuItem();
-        menuAreas = new javax.swing.JMenuItem();
+        menuPuestoArea = new javax.swing.JMenuItem();
 
         Eliminar.setText("Eliminar");
         Eliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -145,9 +154,45 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel3.setLayout(null);
 
-        jLabel2.setText("Prueba commit");
-        jPanel3.add(jLabel2);
-        jLabel2.setBounds(220, 120, 140, 14);
+        tablaInventario.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Clave", "Producto", "Descripción", "Almacén", "Estatus", "Marca", "No. serie", "Observaciones", "Stock"
+            }
+        ));
+        jScrollPane2.setViewportView(tablaInventario);
+
+        javax.swing.GroupLayout pn_tablaInventarioLayout = new javax.swing.GroupLayout(pn_tablaInventario);
+        pn_tablaInventario.setLayout(pn_tablaInventarioLayout);
+        pn_tablaInventarioLayout.setHorizontalGroup(
+            pn_tablaInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pn_tablaInventarioLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 910, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pn_tablaInventarioLayout.setVerticalGroup(
+            pn_tablaInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pn_tablaInventarioLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(72, Short.MAX_VALUE))
+        );
+
+        jPanel3.add(pn_tablaInventario);
+        pn_tablaInventario.setBounds(40, 30, 930, 510);
+
+        btnAddInventario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnAddInventario.setText("Añadir");
+        btnAddInventario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddInventarioActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnAddInventario);
+        btnAddInventario.setBounds(1010, 50, 90, 30);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
         jPanel3.add(jLabel1);
@@ -357,11 +402,13 @@ public class Principal extends javax.swing.JFrame {
         });
         menuOpciones.add(menuPermisos);
 
-        menuPuestos.setText("Puestos");
-        menuOpciones.add(menuPuestos);
-
-        menuAreas.setText("Áreas");
-        menuOpciones.add(menuAreas);
+        menuPuestoArea.setText("Puestos & Áreas");
+        menuPuestoArea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuPuestoAreaActionPerformed(evt);
+            }
+        });
+        menuOpciones.add(menuPuestoArea);
 
         jMenuBar1.add(menuOpciones);
 
@@ -428,6 +475,7 @@ public class Principal extends javax.swing.JFrame {
         
         //Llenado de tablas
         tablaUsuarios.setModel(manager_users.getEmpleados());
+        tablaInventario.setModel(manager_inventario.getInventario());
         
     }//GEN-LAST:event_formWindowOpened
 
@@ -505,6 +553,21 @@ public class Principal extends javax.swing.JFrame {
         Ventana_permisos_puesto ob = new Ventana_permisos_puesto(this, true);
         ob.setVisible(true);
     }//GEN-LAST:event_menuPermisosActionPerformed
+
+    private void menuPuestoAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPuestoAreaActionPerformed
+        // TODO add your handling code here:
+        Ventana_Puestos_Area ob = new Ventana_Puestos_Area(this, true);
+        ob.setVisible(true);
+    }//GEN-LAST:event_menuPuestoAreaActionPerformed
+
+    private void btnAddInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddInventarioActionPerformed
+        // TODO add your handling code here:
+        
+        //Llamamos el forumulario para añadir un nuevo empleado
+        addInventario ob = new addInventario(this, true);
+        ob.setVisible(true);
+        
+    }//GEN-LAST:event_btnAddInventarioActionPerformed
        
     
     /**
@@ -553,12 +616,12 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem Promover;
     private javax.swing.JButton btnAbajo;
     private javax.swing.JButton btnAddEmpleado;
+    private javax.swing.JButton btnAddInventario;
     private javax.swing.JButton btnArriba;
     private javax.swing.JButton btnDerecha;
     private javax.swing.JButton btnIzquierda;
     private javax.swing.JPanel configuracion;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
@@ -571,13 +634,15 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JMenuItem menuAreas;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JMenu menuOpciones;
     private javax.swing.JMenuItem menuPermisos;
-    private javax.swing.JMenuItem menuPuestos;
+    private javax.swing.JMenuItem menuPuestoArea;
     private javax.swing.JPanel pestañaInventario;
+    private javax.swing.JPanel pn_tablaInventario;
     private javax.swing.JPanel pn_tablaUsuarios;
     private javax.swing.JTabbedPane tabbedPrincipal;
+    public static javax.swing.JTable tablaInventario;
     public static javax.swing.JTable tablaUsuarios;
     private javax.swing.JPanel usuarios;
     // End of variables declaration//GEN-END:variables

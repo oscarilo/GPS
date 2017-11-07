@@ -7,6 +7,7 @@ package Interfaces;
 
 import javax.swing.JTable;
 import Clases.ManagerPermisos;
+import Clases.ManagerComplemento;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 /**
@@ -15,6 +16,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Ventana_permisos_puesto extends javax.swing.JDialog {
     ManagerPermisos manager_permisos;
+    ManagerComplemento manager_complemento;
+    
     public static DefaultTableModel modelo;
     /**
      * Creates new form Ventana_permisos_puesto
@@ -25,6 +28,7 @@ public class Ventana_permisos_puesto extends javax.swing.JDialog {
         
         //Asginamos memoria la objeto
         manager_permisos = new ManagerPermisos();
+        manager_complemento = new ManagerComplemento();
         //Deshabilitamos el momvimiento de los encabezados de la tabla
         tablaPermisos.getTableHeader().setReorderingAllowed(false);
         modelo = (DefaultTableModel)tablaPermisos.getModel();
@@ -167,7 +171,7 @@ public class Ventana_permisos_puesto extends javax.swing.JDialog {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
         comboPuesto.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-        manager_permisos.getComboPuestos(comboPuesto);
+        manager_complemento.getComboPuestos(comboPuesto);
     }//GEN-LAST:event_formWindowOpened
 
     public static void limpiarTablaPermisos(){

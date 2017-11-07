@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -231,25 +230,5 @@ public class ManagerPermisos {
         return true; //Inserto correctamente
 
     }//actualizar permisos estaticos de acuerdo al puesto
-
-    
-    public void getComboPuestos(JComboBox combo) {
-        try{
-           
-            String sql = "select * from Puestos;";
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            while(rs.next()){
-                combo.addItem(rs.getObject(1).toString());
-            }
-            
-            conexion.close();
-        } catch (SQLException ex) {
-            System.out.printf("Error al obtener los puestos para ingresarlos al combo SQL");
-            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-        
-    }//Obtiene todas los puestos y las mete al combobox
     
 }//class

@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -215,25 +214,5 @@ public class ManagerUsers {
             return estado;
 
     }//existeUsuario
-/*-------------------------------------------------------------------------------------------------------------------*/    
-    //LLENADO DE COMBOBOX
-    public void getComboAreas(JComboBox combo) {
-        try{
-           
-            String sql = "select * from Area;";
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            while(rs.next()){
-                combo.addItem(rs.getObject(1).toString());
-            }
-            
-            conexion.close();
-        } catch (SQLException ex) {
-            System.out.printf("Error al obtener las áreas para ingresarlos al combo SQL");
-            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-        
-    }//Obtiene todas los puestos y las mete al combobox
     
 }//class
